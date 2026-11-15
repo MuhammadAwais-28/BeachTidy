@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "713724239732",
+    "project_id": "beach-tidy-up",
+    "storage_bucket": "beach-tidy-up.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:713724239732:android:2cc27630c1a833b4e5d621",
+        "android_client_info": {
+          "package_name": "com.tidy.clean.up.fun.asmr.cleaning.satisfying.games.organize"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQJp-TdjFLou2gCaeQwjhub3aw9R-rikQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

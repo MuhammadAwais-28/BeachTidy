@@ -17,6 +17,7 @@ public class MusicManager : MonoBehaviour
     [Range(0f, 1f)] public float volume = 0.5f;
 
     private AudioSource _source;
+    public bool IsMuted => _source != null && _source.mute;
 
     private void Awake()
     {
@@ -29,6 +30,10 @@ public class MusicManager : MonoBehaviour
             _source.loop = true;
             _source.volume = volume;
             _source.playOnAwake = false;
+
+            // Load saved mute state (0 = unmuted, 1 = muted)
+            bool savedMute = PlayerPrefs.GetInt("MusicMuted", 0) == 1;
+            _source.mute = savedMute;
         }
         else
         {
@@ -39,13 +44,11 @@ public class MusicManager : MonoBehaviour
 
     private void OnEnable()
     {
-        // Listen for scene changes
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     private void OnDisable()
     {
-        // Unsubscribe to prevent memory leaks
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
@@ -64,8 +67,6 @@ public class MusicManager : MonoBehaviour
     public void ChangeMusic(AudioClip newClip)
     {
         if (_source == null || newClip == null) return;
-
-        // Avoid restarting the track if the same clip is already playing
         if (_source.clip == newClip && _source.isPlaying) return;
 
         _source.Stop();

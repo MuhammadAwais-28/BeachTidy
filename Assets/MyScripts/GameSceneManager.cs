@@ -9,22 +9,54 @@ public class GameSceneManager : MonoBehaviour
 
     [Header("Panels")]
     public GameObject progressPanel;
+    public GameObject settingsPanel;
+    public GameObject pausePanel;
 
     private void Start()
     {
+        Time.timeScale = 1f;
+
         if (progressPanel != null)
             progressPanel.SetActive(false);
+
+        if (settingsPanel != null)
+            settingsPanel.SetActive(false);
+
+        if (pausePanel != null)
+            pausePanel.SetActive(false);
     }
 
     // Home Scene Start Button
     public void StartGame()
     {
+        Time.timeScale = 1f;
         SceneManager.LoadScene(gamePlayScene);
     }
 
-    // Pause Button (Go Back Home)
-    public void PauseGame()
+    // Pause Button (Opens Pause Panel & Freezes Gameplay)
+    public void OpenPausePanel()
     {
+        if (pausePanel != null)
+        {
+            pausePanel.SetActive(true);
+            Time.timeScale = 0f;
+        }
+    }
+
+    // Pause Panel -> Resume Button
+    public void ResumeGame()
+    {
+        if (pausePanel != null)
+        {
+            pausePanel.SetActive(false);
+            Time.timeScale = 1f;
+        }
+    }
+
+    // Pause Panel -> Home Button
+    public void GoHome()
+    {
+        Time.timeScale = 1f;
         SceneManager.LoadScene(homeScene);
     }
 
@@ -42,7 +74,21 @@ public class GameSceneManager : MonoBehaviour
             progressPanel.SetActive(false);
     }
 
-    // Quit Game
+    // Open Settings Panel
+    public void OpenSettingsPanel()
+    {
+        if (settingsPanel != null)
+            settingsPanel.SetActive(true);
+    }
+
+    // Close Settings Panel
+    public void CloseSettingsPanel()
+    {
+        if (settingsPanel != null)
+            settingsPanel.SetActive(false);
+    }
+
+    // Quit Game (Used by Pause Panel Exit Button & Home Quit Button)
     public void QuitGame()
     {
         Application.Quit();

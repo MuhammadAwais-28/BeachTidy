@@ -12,6 +12,7 @@ public class SFXManager : MonoBehaviour
 
     private AudioSource _source;
     private bool _muted;
+    public bool IsMuted => _muted;
 
     private void Awake()
     {
@@ -22,6 +23,10 @@ public class SFXManager : MonoBehaviour
 
             _source = gameObject.AddComponent<AudioSource>();
             _source.playOnAwake = false;
+
+            // Load saved mute state (0 = unmuted, 1 = muted)
+            bool savedMute = PlayerPrefs.GetInt("SFXMuted", 0) == 1;
+            SetMuted(savedMute);
         }
         else
         {
@@ -29,7 +34,6 @@ public class SFXManager : MonoBehaviour
             return;
         }
     }
-
 
     public void SetMuted(bool muted)
     {
@@ -39,7 +43,6 @@ public class SFXManager : MonoBehaviour
             _source.mute = muted;
         }
     }
-
 
     private void OnEnable()
     {
@@ -56,7 +59,6 @@ public class SFXManager : MonoBehaviour
         HookAllButtons();
     }
 
-
     public void HookAllButtons()
     {
         Button[] buttons = FindObjectsOfType<Button>(true);
@@ -69,7 +71,7 @@ public class SFXManager : MonoBehaviour
 
     public void PlayClick()
     {
-        if (_source != null && clickSound != null)
+        if (_source != null && clickSound != null && !_muted)
         {
             _source.PlayOneShot(clickSound, volume);
         }
